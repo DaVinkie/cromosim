@@ -8,6 +8,7 @@ import scipy as sp
 import sys
 import random
 import matplotlib
+import matplotlib.colors as clrs
 import matplotlib.pyplot as plt
 
 #from scipy.spatial import KDTree
@@ -636,6 +637,7 @@ def create_people_in_box(nn, box, dest_name, radius_distribution,
     dest_names: numpy array
         people destination names
     """
+    print("Am i here?")
     if (verbose):
         print("------ create_people_in_box --> Create "+str(nn)+ \
           " individuals in the box "+str(box)+", overlaps can occur...")
@@ -735,6 +737,7 @@ def check_people_in_box(dom, box, xyrv, dest_names, rng, verbose=True):
             test2 = (xyrv[:,0]>xmin+p_rmax)*(xyrv[:,0]<xmax-p_rmax) \
                   *(xyrv[:,1]>ymin+p_rmax)*(xyrv[:,1]<ymax-p_rmax) \
                   *(normVd>0)
+            print("This is test2: ", test2)
             ind2 = np.where(test2==0)[0]
             if (ind2.shape[0]>0):
                 if (verbose):
@@ -870,7 +873,7 @@ def people_initialization(dom, groups, dt, dmin_people=0, dmin_walls=0,
         scipy random state object (see ``scipy.random.RandomState``)
     """
     if (verbose):
-        print("\n =================> INITIALIZATION: PEOPLE POSITIONS")
+        print("\n =================> INITIALIZATION: PEOPLE ARE WEIRD POSITIONS")
     ## To initialize people positions
     rng = np.random.RandomState()
     if (seed>0):
@@ -897,6 +900,8 @@ def people_initialization(dom, groups, dt, dmin_people=0, dmin_walls=0,
                                   gp["radius_distribution"],
                                   gp["velocity_distribution"],
                                   dom, rng, verbose=verbose)
+        print('Create is finished')
+
         pp = remove_overlaps_in_box(dom, gp["box"], pp,
                                     pp_dest, dt, rng,
                                     dmin_people=dmin_people,
@@ -1383,7 +1388,7 @@ def plot_people(ifig, dom, people, contacts, colors, time=-1, axis=None,
     ax1 = fig.add_subplot(111)
     # Domain
     ax1.imshow(dom.image,interpolation='nearest',
-               extent=[dom.xmin,dom.xmax,dom.ymin,dom.ymax], origin='lower')
+                extent=[dom.xmin,dom.xmax,dom.ymin,dom.ymax], origin='lower')
     if (plot_people):
         try:
             # People
@@ -1392,7 +1397,10 @@ def plot_people(ifig, dom, people, contacts, colors, time=-1, axis=None,
                                    heights=2*people["xyrv"][:,2],
                                    angles=0, units='xy',
                                    cmap=plt.get_cmap(cmap),
-                                   offsets=offsets, transOffset=ax1.transData)
+                                   offsets=offsets, transOffset=ax1.transData,
+                                   ### Added these arguments to make the colormap static ###
+
+                                   norm=clrs.Normalize(vmin=0.6, vmax=2.5, clip=True)) # Mapped to velocity
             ec.set_array(colors)
             ax1.add_collection(ec)
         except:
