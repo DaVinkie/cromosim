@@ -637,7 +637,6 @@ def create_people_in_box(nn, box, dest_name, radius_distribution,
     dest_names: numpy array
         people destination names
     """
-    print("Am i here?")
     if (verbose):
         print("------ create_people_in_box --> Create "+str(nn)+ \
           " individuals in the box "+str(box)+", overlaps can occur...")

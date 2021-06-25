@@ -570,10 +570,7 @@ class Domain():
         # print(I, J)
         Vd = sp.zeros( (xyr.shape[0],2) )
         for id,dest_name in enumerate(np.unique(people_dest)):
-            # print('DEBUG: ', np.shape(xyr))
             ind = np.where(np.array(people_dest)==dest_name)[0]
-            # print('DEBUG: ', np.where(np.array(people_dest)==dest_name), ind)
-            # print('DEBUG: ', np.shape(Vd), np.shape(self.destinations[dest_name].desired_velocity_X), np.shape(self.destinations[dest_name].desired_velocity_Y))
             scale = self.destinations[dest_name].velocity_scale
             Vd[ind,0] = xyr[ind,3]*scale*self.destinations[dest_name].desired_velocity_X[I[ind],J[ind]]
             Vd[ind,1] = xyr[ind,3]*scale*self.destinations[dest_name].desired_velocity_Y[I[ind],J[ind]]
